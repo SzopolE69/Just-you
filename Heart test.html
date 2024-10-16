@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repkedő Szív</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black; /* Kezdő háttér színe fekete */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            transition: background-color 0.5s ease; /* Simább háttér szín átmenet */
+        }
+
+        body.light-background {
+            background-color: rgb(66, 17, 28); /* Változtasd meg a kívánt világos színre */
+        }
+
+        .heart {
+            background-color: red;
+            display: inline-block;
+            height: 70px;
+            width: 70px;
+            position: absolute;
+            transform: rotate(-45deg);
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: red;
+            border-radius: 50%;
+            height: 70px;
+            width: 70px;
+            position: absolute;
+        }
+
+        .heart:before {
+            top: -35px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 35px;
+            top: 0;
+        }
+
+        .heart span {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            font-family: 'Dancing Script', cursive;
+            font-size: 35px;
+            color: white;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart">
+        <span>E</span>
+    </div>
+
+    <script>
+        const heart = document.querySelector('.heart');
+        const moveDistance = 5; // Az elmozdulás mértéke 1 pixel
+        let posX = Math.random() * window.innerWidth;
+        let posY = Math.random() * window.innerHeight;
+        let directionX = (Math.random() - 0.5) * moveDistance;
+        let directionY = (Math.random() - 0.5) * moveDistance;
+        heart.style.left = `${posX}px`;
+        heart.style.top = `${posY}px`;
+
+        function moveHeart() {
+            posX += directionX;
+            posY += directionY;
+
+            // Ellenőrizd, hogy a szív ütközik-e a falakkal
+            if (posX <= 0 || posX >= window.innerWidth - 70) {
+                directionX = -directionX;
+                document.body.classList.add('light-background'); // Hozzáadja a világos háttér osztályt
+                setTimeout(() => {
+                    document.body.classList.remove('light-background'); // Eltávolítja a világos háttér osztályt
+                }, 500); // 500ms után eltávolítja
+            }
+            if (posY <= 0 || posY >= window.innerHeight - 70) {
+                directionY = -directionY;
+                document.body.classList.add('light-background'); // Hozzáadja a világos háttér osztályt
+                setTimeout(() => {
+                    document.body.classList.remove('light-background'); // Eltávolítja a világos háttér osztályt
+                }, 500); // 500ms után eltávolítja
+            }
+
+            heart.style.left = `${posX}px`;
+            heart.style.top = `${posY}px`;
+
+            requestAnimationFrame(moveHeart);
+        }
+
+        moveHeart();
+    </script>
+</body>
+</html>
